@@ -11,12 +11,17 @@ RUN apt-get -y install nginx
 RUN service nginx stop
 
 #create new user with sudo rights to run nginx
-RUN addgroup nginx \
-adduser --no-create-home nginx sudo \
-usermod -a -G nginx nginx \
-mkdir /opt/nginx \
-chown nginx:nginx /opt/nginx \
-chmod 774 /opt/nginx \
+RUN addgroup nginx && \
+adduser --no-create-home nginx sudo && \
+usermod -a -G nginx nginx && \
+mkdir /opt/nginx && \
+chown nginx:nginx /opt/nginx && \
+chmod 774 /opt/nginx
+
+#Pull github project
+RUN mkdir /github && \
+cd /github && \
+git clone https://github.com/hilgefjm/soccer-demo.git
 
 RUN mkdir -p /startup
 ADD docker-startup.sh /startup/docker-startup.sh
