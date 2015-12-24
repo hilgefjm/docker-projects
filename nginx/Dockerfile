@@ -23,6 +23,12 @@ RUN mkdir /github && \
 cd /github && \
 git clone https://github.com/hilgefjm/soccer-demo.git
 
+#Add keys to server
+RUN apt-get -y install openssh-server && \
+  adduser --home /home/hilgefjm --shell /bin/bash --ingroup sudo --disabled-password hilgefjm && \
+  mkdir /home/hilgefjm/.ssh/authorized_keys
+ADD hilgefjm.pub /home/hilgefjm/.ssh/authorized_keys/hilgefjm.pub
+
 RUN mkdir -p /startup
 ADD docker-startup.sh /startup/docker-startup.sh
 ADD nginx.conf /opt/nginx/nginx.conf
