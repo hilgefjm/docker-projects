@@ -11,9 +11,7 @@ RUN apt-get -y install nginx
 RUN service nginx stop
 
 #create new user with sudo rights to run nginx
-RUN addgroup nginx && \
-adduser --no-create-home nginx sudo && \
-usermod -a -G nginx nginx && \
+RUN useradd --no-create-home nginx && \
 mkdir /opt/nginx && \
 chown nginx:nginx /opt/nginx && \
 chmod 774 /opt/nginx
@@ -25,7 +23,8 @@ git clone https://github.com/hilgefjm/soccer-demo.git
 
 #Add keys to server
 RUN apt-get -y install openssh-server && \
-  adduser --home /home/hilgefjm --shell /bin/bash --ingroup sudo --disabled-password hilgefjm && \
+  adduser --home /home/hilgefjm --shell /bin/bash --ingroup sudo --gecos "" --disabled-password hilgefjm && \
+  mkdir /home/hilgefjm/.ssh && \
   mkdir /home/hilgefjm/.ssh/authorized_keys
 ADD hilgefjm.pub /home/hilgefjm/.ssh/authorized_keys/hilgefjm.pub
 
